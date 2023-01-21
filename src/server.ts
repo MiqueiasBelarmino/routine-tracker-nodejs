@@ -1,6 +1,7 @@
 import fastify from "fastify";
 import cors from "@fastify/cors";
 import { PrismaClient } from '@prisma/client';
+import { dateToMidnightISODate } from "../util";
 
 const app = fastify();
 const prisma = new PrismaClient();
@@ -8,7 +9,7 @@ const prisma = new PrismaClient();
 app.register(cors);
 
 app.get('/', () => {
-    return 'working'
+    return dateToMidnightISODate(new Date())
 })
 
 app.get('/habits', async () => {

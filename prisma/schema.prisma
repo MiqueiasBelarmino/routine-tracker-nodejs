@@ -13,8 +13,7 @@ datasource db {
 model Habit {
   id           String         @id @default(uuid())
   name         String
-  target_date  DateTime
-  recurring    String
+  schedule     String
   created_at   DateTime       @default(now())
   is_completed Boolean        @default(false)
   weekDays     HabitWeekDay[]
@@ -26,6 +25,7 @@ model Task {
   id           String   @id @default(uuid())
   name         String
   target_date  DateTime
+  priority     Int
   created_at   DateTime @default(now())
   is_completed Boolean  @default(false)
 
