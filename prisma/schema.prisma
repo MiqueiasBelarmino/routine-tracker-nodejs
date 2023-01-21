@@ -11,10 +11,34 @@ datasource db {
 }
 
 model Habit {
-  id String @id @default(uuid())
-  name String
-  created_at DateTime
-  is_completed Boolean
+  id           String         @id @default(uuid())
+  name         String
+  target_date  DateTime
+  recurring    String
+  created_at   DateTime       @default(now())
+  is_completed Boolean        @default(false)
+  weekDays     HabitWeekDay[]
 
   @@map("habits")
+}
+
+model Task {
+  id           String   @id @default(uuid())
+  name         String
+  target_date  DateTime
+  created_at   DateTime @default(now())
+  is_completed Boolean  @default(false)
+
+  @@map("tasks")
+}
+
+model HabitWeekDay {
+  id       String @id @default(uuid())
+  habit_id String
+  week_day Int
+
+  habit Habit @relation(fields: [habit_id], references: [id])
+
+  @@unique([habit_id, week_day])
+  @@map("habit_week_days")
 }
