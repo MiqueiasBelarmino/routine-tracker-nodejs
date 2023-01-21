@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../src/lib/prisma';
 import { addDays, dateToMidnightISODate } from '../util';
 
-const prisma = new PrismaClient()
 
 async function main() {
 
