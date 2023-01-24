@@ -6,5 +6,5 @@ export function addDays(date: Date, days: number): Date{
 
 export function dateToMidnightISODate(date: Date): Date{
     var date = new Date(date.valueOf());
-    return new Date(`${date.toISOString().split('T')[0]}T00:00:00.000Z`);
+    return new Date(`${date.toISOString().split('T')[0]}T03:00:00.000Z`);
 }
