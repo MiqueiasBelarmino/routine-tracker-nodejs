@@ -1,6 +1,5 @@
-import { prisma } from '../src/lib/prisma';
+import { PrismaClientCon as prisma } from '../src/lib/prisma';
 import { addDays, dateToMidnightISODate } from '../util';
-
 
 async function main() {
 
@@ -12,8 +11,8 @@ async function main() {
     prisma.habit.create({
       data: {
         name: 'Acordar cedo',
-        created_at: dateToMidnightISODate(new Date()),
-        is_completed: false,
+        createdAt: dateToMidnightISODate(new Date()),
+        isCompleted: false,
         schedule: 'm',
         weekDays: {
           create: [
@@ -29,8 +28,8 @@ async function main() {
     prisma.habit.create({
       data: {
         name: 'Estudar Bona',
-        created_at: dateToMidnightISODate(new Date()),
-        is_completed: false,
+        createdAt: dateToMidnightISODate(new Date()),
+        isCompleted: false,
         schedule: 'D',
         weekDays: {
           create: [
@@ -48,8 +47,8 @@ async function main() {
     prisma.habit.create({
       data: {
         name: 'Praticar cello',
-        created_at: dateToMidnightISODate(new Date()),
-        is_completed: false,
+        createdAt: dateToMidnightISODate(new Date()),
+        isCompleted: false,
         schedule: 'N',
         weekDays: {
           create: [
@@ -72,8 +71,8 @@ async function main() {
         name: 'Limpar geladeira',
         target_date: dateToMidnightISODate(addDays(new Date(), 2)),
         priority: 1,
-        created_at: dateToMidnightISODate(new Date()),
-        is_completed: false,
+        createdAt: dateToMidnightISODate(new Date()),
+        isCompleted: false,
       }
     }),
     prisma.task.create({
@@ -81,8 +80,8 @@ async function main() {
         name: 'Carpir o fundo',
         target_date: dateToMidnightISODate(addDays(new Date(), 1)),
         priority: 1,
-        created_at: dateToMidnightISODate(new Date()),
-        is_completed: false,
+        createdAt: dateToMidnightISODate(new Date()),
+        isCompleted: false,
       }
     }),
     prisma.task.create({
@@ -90,8 +89,8 @@ async function main() {
         name: 'Separar roupa para parto',
         target_date: dateToMidnightISODate(addDays(new Date(), 1)),
         priority: 0,
-        created_at: dateToMidnightISODate(new Date()),
-        is_completed: false,
+        createdAt: dateToMidnightISODate(new Date()),
+        isCompleted: false,
       }
     }),
   ]);
