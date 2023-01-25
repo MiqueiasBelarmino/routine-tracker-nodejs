@@ -17,7 +17,7 @@ model Habit {
   createdAt   DateTime       @default(now())
   isCompleted Boolean        @default(false)
   weekDays    HabitWeekDay[]
-  dayHabit    DayHabit[]
+  dayHabits   DayHabit[]
 
   @@map("habits")
 }
@@ -45,10 +45,11 @@ model HabitWeekDay {
 }
 
 model Day {
-  id       String     @id @default(uuid())
-  date     DateTime
-  dayHabit DayHabit[]
+  id        String     @id @default(uuid())
+  date      DateTime
+  dayHabits DayHabit[]
 
+  @@unique([date])
   @@map("days")
 }
 
