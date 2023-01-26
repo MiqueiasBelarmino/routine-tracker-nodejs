@@ -1,6 +1,7 @@
 import { dateToMidnightISODate } from "../../util";
 import { PrismaClientCon } from "../lib/prisma"
 import { Habit } from "../models/Habit";
+import { SCHEDULE } from "../utils/consts";
 
 export class HabitService {
 
@@ -14,7 +15,7 @@ export class HabitService {
                 name: habit.name!,
                 createdAt: habit.createdAt || dateToMidnightISODate(new Date()),
                 isCompleted: habit.isCompleted || false,
-                schedule: habit.schedule || 'D',
+                schedule: habit.schedule || SCHEDULE.ALL_DAY,
                 weekDays: {
                     create: weekDays
                 }
@@ -82,7 +83,7 @@ export class HabitService {
             data: {
                 name: habit.name!,
                 isCompleted: habit.isCompleted || false,
-                schedule: habit.schedule || 'D',
+                schedule: habit.schedule || SCHEDULE.ALL_DAY,
                 weekDays: {
                     deleteMany: {
                         habit_id: habit.id

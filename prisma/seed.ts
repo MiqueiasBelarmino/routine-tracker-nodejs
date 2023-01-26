@@ -1,4 +1,5 @@
 import { PrismaClientCon as prisma } from '../src/lib/prisma';
+import { SCHEDULE } from '../src/utils/consts';
 import { addDays, dateToMidnightISODate } from '../util';
 
 async function main() {
@@ -20,7 +21,7 @@ async function main() {
         name: 'Acordar cedo',
         createdAt: new Date('2023-01-15T03:00:00.000Z'),
         isCompleted: false,
-        schedule: 'm',
+        schedule: SCHEDULE.MONING,
         weekDays: {
           create: [
             { week_day: 1 },
@@ -38,7 +39,7 @@ async function main() {
         name: 'Estudar Bona',
         createdAt: new Date('2023-01-16T03:00:00.000Z'),
         isCompleted: false,
-        schedule: 'D',
+        schedule: SCHEDULE.ALL_DAY,
         weekDays: {
           create: [
             { week_day: 0 },
@@ -58,7 +59,7 @@ async function main() {
         name: 'Praticar cello',
         createdAt: dateToMidnightISODate(new Date()),
         isCompleted: false,
-        schedule: 'N',
+        schedule: SCHEDULE.NIGHT,
         weekDays: {
           create: [
             { week_day: 0 },
