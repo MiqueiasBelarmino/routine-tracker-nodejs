@@ -2,14 +2,20 @@ import { HabitController } from './../controllers/HabitController';
 import { Router } from 'express';
 
 const habitsRouter = Router();
+const habitController = new HabitController();
 
-habitsRouter.get('/habits', new HabitController().findAll);
-habitsRouter.get('/habits/:id', new HabitController().findById);
-habitsRouter.post('/habits', new HabitController().create);
-habitsRouter.put('/habits/:id', new HabitController().update);
-habitsRouter.delete('/habits/:id', new HabitController().delete);
-habitsRouter.patch('/habits/:id/toggle', new HabitController().toggle);
+habitsRouter
+.route('/api/habits')
+.get(habitController.findAll)
+.post(habitController.create)
 
-habitsRouter.get('/day', new HabitController().findByDay)
+habitsRouter
+.route('/api/habits/:id')
+.get(habitController.findById)
+.put(habitController.update)
+.delete(habitController.delete)
+
+habitsRouter.patch('/api/habits/:id/toggle', habitController.toggle);
+habitsRouter.get('/api/day', habitController.findByDay)
 
 export default habitsRouter;

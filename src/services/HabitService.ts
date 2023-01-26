@@ -67,9 +67,6 @@ export class HabitService {
             return dayHabit.habit_id
         });
 
-        console.log(day);
-        console.log(completedHabits);
-
         return {
             availableHabits,
             completedHabits
