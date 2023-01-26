@@ -20,7 +20,6 @@ async function main() {
         id: firstHabitId,
         name: 'Acordar cedo',
         createdAt: new Date('2023-01-15T03:00:00.000Z'),
-        isCompleted: false,
         schedule: SCHEDULE.MONING,
         weekDays: {
           create: [
@@ -38,7 +37,6 @@ async function main() {
         id: secondHabitId,
         name: 'Estudar Bona',
         createdAt: new Date('2023-01-16T03:00:00.000Z'),
-        isCompleted: false,
         schedule: SCHEDULE.ALL_DAY,
         weekDays: {
           create: [
@@ -58,7 +56,6 @@ async function main() {
         id: thirdHabitId,
         name: 'Praticar cello',
         createdAt: dateToMidnightISODate(new Date()),
-        isCompleted: false,
         schedule: SCHEDULE.NIGHT,
         weekDays: {
           create: [
