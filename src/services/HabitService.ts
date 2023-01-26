@@ -14,7 +14,6 @@ export class HabitService {
             data: {
                 name: habit.name!,
                 createdAt: habit.createdAt || dateToMidnightISODate(new Date()),
-                isCompleted: habit.isCompleted || false,
                 schedule: habit.schedule || SCHEDULE.ALL_DAY,
                 weekDays: {
                     create: weekDays
@@ -79,7 +78,6 @@ export class HabitService {
         const updatedHabit = await HabitService.prisma.habit.update({
             data: {
                 name: habit.name!,
-                isCompleted: habit.isCompleted || false,
                 schedule: habit.schedule || SCHEDULE.ALL_DAY,
                 weekDays: {
                     deleteMany: {
@@ -155,6 +153,38 @@ export class HabitService {
                 }
             })
         }
+    }
+
+    summary = async () => {
+
+        const summary = await HabitService.prisma.$queryRaw `--sql
+            SELECT
+                D.id,
+                D.date,
+                (
+                    SELECT
+                        CAST(COUNT(*) AS FLOAT)
+                    FROM 
+                        day_habits DH
+                    WHERE
+                        DH.day_id = D.id
+                ) AS completed,
+                (
+                    SELECT
+                        CAST(COUNT(*) AS FLOAT)
+                    FROM 
+                        habit_week_days HWD
+                    JOIN habits H
+                        ON H.id = HWD.habit_id
+                    WHERE
+                        HWD.week_day = CAST(strftime('%w', D.date/1000.0,'unixepoch') AS INT)
+                        AND (H.createdAt = D.date OR H.createdAt < D.date)
+                ) AS amount
+            FROM
+                days D        
+        `
+
+        return summary;
     }
 
 

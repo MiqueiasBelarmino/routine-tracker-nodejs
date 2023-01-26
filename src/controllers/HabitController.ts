@@ -125,4 +125,14 @@ export class HabitController {
         }
     }
 
+    summary = async (req: Request, res: Response) => {
+
+        try {
+            const habits = await new HabitService().summary();
+            res.json({ data: habits });
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
+
 }
