@@ -111,11 +111,52 @@ export class HabitService {
         })
 
         const deletedHabit = await HabitService.prisma.habit.delete({
-            where:{
+            where: {
                 id: id
             }
         });
         return deletedHabit;
+    }
+
+    toggle = async (id: string, date: Date) => {
+
+        let day = await HabitService.prisma.day.findUnique({
+            where: {
+                date: date
+            }
+        });
+
+        if (!day) {
+            day = await HabitService.prisma.day.create({
+                data: {
+                    date: date
+                }
+            });
+        }
+
+        const dayHabit = await HabitService.prisma.dayHabit.findUnique({
+            where: {
+                day_id_habit_id: {
+                    day_id: day.id,
+                    habit_id: id
+                }
+            }
+        });
+
+        if (dayHabit) {
+            await HabitService.prisma.dayHabit.delete({
+                where: {
+                    id: dayHabit.id
+                }
+            })
+        } else {
+            await HabitService.prisma.dayHabit.create({
+                data: {
+                    day_id: day.id,
+                    habit_id: id
+                }
+            })
+        }
     }
 
 

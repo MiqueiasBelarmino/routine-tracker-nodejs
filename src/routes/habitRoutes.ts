@@ -8,6 +8,7 @@ habitsRouter.get('/habits/:id', new HabitController().findById);
 habitsRouter.post('/habits', new HabitController().create);
 habitsRouter.put('/habits/:id', new HabitController().update);
 habitsRouter.delete('/habits/:id', new HabitController().delete);
+habitsRouter.patch('/habits/:id/toggle', new HabitController().toggle);
 
 habitsRouter.get('/day', new HabitController().findByDay)
 

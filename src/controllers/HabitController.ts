@@ -1,6 +1,7 @@
 import { HabitService } from './../services/HabitService';
 import { z } from 'zod';
 import { Request, Response } from 'express';
+import { dateToMidnightISODate } from '../../util';
 
 export class HabitController {
 
@@ -43,7 +44,7 @@ export class HabitController {
         try {
             const { id } = params.parse(req.params);
             const habits = await new HabitService().findById(id);
-            res.json({data: habits});
+            res.json({ data: habits });
         } catch (error) {
             res.status(500).send(error);
         }
@@ -58,7 +59,7 @@ export class HabitController {
         try {
             const { date } = dayParams.parse(req.body);
             const habits = await new HabitService().findByDay(date);
-            res.json({data: habits});
+            res.json({ data: habits });
         } catch (error) {
             res.status(500).send(error);
         }
@@ -98,6 +99,27 @@ export class HabitController {
             const { id } = deleteHabitParams.parse(req.params);
             const deletedHabit = await new HabitService().delete(id);
             res.json({ data: deletedHabit });
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
+
+    toggle = async (req: Request, res: Response) => {
+
+        const toggleHabitParams = z.object({
+            id: z.string().uuid(),
+        })
+
+        const toggleHabitBody = z.object({
+            date: z.coerce.date()
+        })
+
+        try {
+            const { id } = toggleHabitParams.parse(req.params);
+            const { date } = toggleHabitBody.parse(req.body);
+            // const date = dateToMidnightISODate(new Date());
+            const habit = await new HabitService().toggle(id, date);
+            res.json({ data: habit });
         } catch (error) {
             res.status(500).send(error);
         }
