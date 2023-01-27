@@ -5,18 +5,18 @@ const habitsRouter = Router();
 const habitController = new HabitController();
 
 habitsRouter
-.route('/api/habits')
+.route('/habits')
 .get(habitController.findAll)
 .post(habitController.create);
 
 habitsRouter
-.route('/api/habits/:id')
+.route('/habits/:id')
 .get(habitController.findById)
 .put(habitController.update)
 .delete(habitController.delete);
 
-habitsRouter.patch('/api/habits/:id/toggle', habitController.toggle);
-habitsRouter.get('/api/day', habitController.findByDay);
-habitsRouter.get('/api/summary', habitController.summary);
+habitsRouter.patch('/habits/:id/toggle', habitController.toggle);
+habitsRouter.get('/day', habitController.findByDay);
+habitsRouter.get('/summary', habitController.summary);
 
 export default habitsRouter;

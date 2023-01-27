@@ -10,7 +10,7 @@ app.use(cors({
     origin: '*'
 }));
 
-app.use(habitsRouter);
+app.use('/api/v1', habitsRouter);
 
 app.listen(PORT, () => { 
     console.log(`Server running on port ${PORT}`) }
