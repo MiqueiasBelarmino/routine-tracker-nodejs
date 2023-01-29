@@ -10,14 +10,14 @@ async function main() {
   await prisma.habit.deleteMany();
   await prisma.task.deleteMany();
 
-  const firstHabitId = '068ba380-decb-496d-b762-58fefea6569c';
-  const secondHabitId = '2357c721-5479-4c6d-9c2f-1dae308fa89d';
-  const thirdHabitId = '704f8036-8563-4208-9150-22d14f48d252';
+  // const firstHabitId = '068ba380-decb-496d-b762-58fefea6569c';
+  // const secondHabitId = '2357c721-5479-4c6d-9c2f-1dae308fa89d';
+  // const thirdHabitId = '704f8036-8563-4208-9150-22d14f48d252';
 
   await Promise.all([
     prisma.habit.create({
       data: {
-        id: firstHabitId,
+        // id: firstHabitId,
         name: 'Acordar cedo',
         createdAt: new Date('2023-01-15T03:00:00.000Z'),
         schedule: SCHEDULE.MONING,
@@ -34,7 +34,7 @@ async function main() {
     }),
     prisma.habit.create({
       data: {
-        id: secondHabitId,
+        // id: secondHabitId,
         name: 'Estudar Bona',
         createdAt: new Date('2023-01-16T03:00:00.000Z'),
         schedule: SCHEDULE.ALL_DAY,
@@ -53,7 +53,7 @@ async function main() {
     }),
     prisma.habit.create({
       data: {
-        id: thirdHabitId,
+        // id: thirdHabitId,
         name: 'Praticar cello',
         createdAt: dateToMidnightISODate(new Date()),
         schedule: SCHEDULE.NIGHT,
@@ -72,29 +72,29 @@ async function main() {
     })
   ]);
 
-  await Promise.all([
-    prisma.day.create({
-      data: {
-        date: new Date('2023-01-17T03:00:00.000Z'),
-        dayHabits: {
-          create: {
-            habit_id: firstHabitId
-          }
-        }
-      }
-    }),
-    prisma.day.create({
-      data: {
-        date: new Date('2023-01-20T03:00:00.000Z'),
-        dayHabits: {
-          create: [
-            { habit_id: firstHabitId },
-            { habit_id: secondHabitId }
-          ]
-        }
-      }
-    }),
-  ]);
+  // await Promise.all([
+  //   prisma.day.create({
+  //     data: {
+  //       date: new Date('2023-01-17T03:00:00.000Z'),
+  //       dayHabits: {
+  //         create: {
+  //           habit_id: firstHabitId
+  //         }
+  //       }
+  //     }
+  //   }),
+  //   prisma.day.create({
+  //     data: {
+  //       date: new Date('2023-01-20T03:00:00.000Z'),
+  //       dayHabits: {
+  //         create: [
+  //           { habit_id: firstHabitId },
+  //           { habit_id: secondHabitId }
+  //         ]
+  //       }
+  //     }
+  //   }),
+  // ]);
 
   await Promise.all([
     prisma.task.create({
