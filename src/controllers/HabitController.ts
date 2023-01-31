@@ -1,7 +1,7 @@
 import { HabitService } from './../services/HabitService';
 import { z } from 'zod';
 import { Request, Response } from 'express';
-import { dateToMidnightISODate } from '../../util';
+import { dateToMidnightISODate } from '../utils/helpers';
 
 export class HabitController {
 

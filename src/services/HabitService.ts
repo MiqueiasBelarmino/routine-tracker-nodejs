@@ -1,4 +1,4 @@
-import { dateToMidnightISODate } from "../../util";
+import { dateToMidnightISODate } from "../utils/helpers";
 import { PrismaClientCon } from "../lib/prisma"
 import { Habit } from "../models/Habit";
 import { SCHEDULE } from "../utils/consts";
@@ -20,7 +20,7 @@ export class HabitService {
                 }
             }
         });
-        return createdHabit;
+        return { createdHabit };
     }
 
     findAll = async () => {
