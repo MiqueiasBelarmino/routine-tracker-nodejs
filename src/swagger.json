@@ -1,0 +1,188 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Routine Tracker API",
+        "description": "Routine Tracker API to manage your daily habits and tasks",
+        "contact": {
+            "email": "miqueiascostabac@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1",
+            "description": "Test env"
+        }
+    ],
+    "paths": {
+        "/habits": {
+            "get": {
+                "summary": "Get all habits",
+                "description": "This route allows to find all created habits",
+                "tag": [
+                    "Habits"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Habit"
+                                    }
+                                },
+                                "examples": {
+                                    "habitsList": {
+                                        "value": {
+                                            "availableHabits": [
+                                                {
+                                                    "id": "068ba380-decb-496d-b762-1dae308fa89d",
+                                                    "name": "One page of a book",
+                                                    "schedule": "M",
+                                                    "createdAt": "2023-01-15T03:00:00.000Z"
+                                                },
+                                                {
+                                                    "id": "704f8036-8563-4208-9150-58fefea6569c",
+                                                    "name": "Go to bed early",
+                                                    "schedule": "N",
+                                                    "createdAt": "2023-01-15T03:00:00.000Z"
+                                                },
+                                                {
+                                                    "id": "2357c721-5479-4c6d-9c2f-22d14f48d252",
+                                                    "name": "Workout",
+                                                    "schedule": "M",
+                                                    "createdAt": "2023-01-15T03:00:00.000Z"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new Habit",
+                "description": "This route allows to create a habit (schedule ex: M - moning, A - afternoon, N - night, AD - all day)",
+                "tag": [
+                    "Habits"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Habit"
+                            },
+                            "examples": {
+                                "habit": {
+                                    "value": {
+                                        "name": "One page of a book",
+                                        "schedule": "M",
+                                        "weekDays": [
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Habit"
+                                },
+                                "examples": {
+                                    "habit": {
+                                        "value": {
+                                            "name": "One page of a book",
+                                            "schedule": "M",
+                                            "weekDays": [
+                                                1,
+                                                2,
+                                                3,
+                                                4,
+                                                5
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "ZodError":{
+                                        "value": {
+                                            "issues": [
+                                                {
+                                                    "code": "invalid_type",
+                                                    "expected": "string",
+                                                    "received": "undefined",
+                                                    "path": [
+                                                        "name"
+                                                    ],
+                                                    "message": "Required"
+                                                },
+                                                {
+                                                    "code": "too_small",
+                                                    "minimum": 1,
+                                                    "type": "string",
+                                                    "inclusive": true,
+                                                    "exact": false,
+                                                    "message": "String must contain at least 1 character(s)",
+                                                    "path": [
+                                                        "schedule"
+                                                    ]
+                                                }
+                                            ],
+                                            "name": "ZodError"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Habit": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "schedule": {
+                        "type": "string"
+                    },
+                    "weekDays": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
