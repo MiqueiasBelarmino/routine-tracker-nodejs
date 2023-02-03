@@ -12,6 +12,10 @@
         {
             "url": "http://localhost:8000/api/v1",
             "description": "Test env"
+        },
+        {
+            "url": "routine-tracker-production.up.railway.app/api/v1/",
+            "description": "Prod env"
         }
     ],
     "paths": {
@@ -150,6 +154,240 @@
                                                     "message": "String must contain at least 1 character(s)",
                                                     "path": [
                                                         "schedule"
+                                                    ]
+                                                }
+                                            ],
+                                            "name": "ZodError"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/habits/{id}": {
+            "get": {
+                "summary": "Get habit by id",
+                "description": "This route allows to find a specific habit",
+                "tag": [
+                    "Habits"
+                ],
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "uuid to find a specific habit",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Habit"
+                                },
+                                "examples": {
+                                    "habit": {
+                                        "value": {
+                                            "availableHabits": {
+                                                "id": "068ba380-decb-496d-b762-1dae308fa89d",
+                                                "name": "One page of a book",
+                                                "schedule": "M",
+                                                "createdAt": "2023-01-15T03:00:00.000Z"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "ZodError":{
+                                        "value": {
+                                            "issues": [
+                                                {
+                                                    "validation": "uuid",
+                                                    "code": "invalid_string",
+                                                    "message": "Invalid uuid",
+                                                    "path": [
+                                                        "id"
+                                                    ]
+                                                }
+                                            ],
+                                            "name": "ZodError"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a habit",
+                "description": "This route allows to update a specific habit",
+                "tag": [
+                    "Habits"
+                ],
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "uuid to update a specific habit",
+                    "required": true
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Habit"
+                            },
+                            "examples": {
+                                "habit": {
+                                    "value": {
+                                        "name": "Two pages of a book",
+                                        "schedule": "AD",
+                                        "weekDays": [
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Habit"
+                                },
+                                "examples": {
+                                    "habit": {
+                                        "value": {
+                                            "data": {
+                                                "id": "068ba380-decb-496d-b762-1dae308fa89d",
+                                                "name": "Two pages of a book",
+                                                "schedule": "M",
+                                                "createdAt": "2023-01-15T03:00:00.000Z"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "ZodError":{
+                                        "value": {
+                                            "issues": [
+                                                {
+                                                    "code": "invalid_type",
+                                                    "expected": "string",
+                                                    "received": "undefined",
+                                                    "path": [
+                                                        "name"
+                                                    ],
+                                                    "message": "Required"
+                                                },
+                                                {
+                                                    "code": "too_small",
+                                                    "minimum": 1,
+                                                    "type": "string",
+                                                    "inclusive": true,
+                                                    "exact": false,
+                                                    "message": "String must contain at least 1 character(s)",
+                                                    "path": [
+                                                        "schedule"
+                                                    ]
+                                                }
+                                            ],
+                                            "name": "ZodError"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific habit",
+                "description": "This route allows to delete a specific habit",
+                "tag": [
+                    "Habits"
+                ],
+                "parameters": {
+                    "name": "id",
+                    "in": "path",
+                    "description": "uuid to delete a specific habit",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Habit"
+                                },
+                                "examples": {
+                                    "habit": {
+                                        "value": {
+                                            "data": {
+                                                "id": "068ba380-decb-496d-b762-1dae308fa89d",
+                                                "name": "One page of a book",
+                                                "schedule": "M",
+                                                "createdAt": "2023-01-15T03:00:00.000Z"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "ZodError":{
+                                        "value": {
+                                            "issues": [
+                                                {
+                                                    "validation": "uuid",
+                                                    "code": "invalid_string",
+                                                    "message": "Invalid uuid",
+                                                    "path": [
+                                                        "id"
                                                     ]
                                                 }
                                             ],
