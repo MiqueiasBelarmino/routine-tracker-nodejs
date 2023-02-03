@@ -9,7 +9,7 @@ export class TaskController {
 
     create = async (req: Request, res: Response) => {
         const createTaskParams = z.object({
-            name: z.string(),
+            name: z.string().min(5),
             target_date: z.coerce.date(),
             priority: z.number().min(0).max(3),
         })
@@ -67,7 +67,7 @@ export class TaskController {
 
     update = async (req: Request, res: Response) => {
         const updateTaskBody = z.object({
-            name: z.string(),
+            name: z.string().min(5),
             target_date: z.coerce.date(),
             priority: z.number().min(0).max(3),
             isCompleted: z.boolean(),

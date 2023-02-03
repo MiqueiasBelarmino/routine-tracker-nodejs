@@ -9,11 +9,11 @@ export class HabitController {
 
     create = async (req: Request, res: Response) => {
         const createHabitParams = z.object({
-            name: z.string(),
-            schedule: z.string().trim(),
+            name: z.string().min(5),
+            schedule: z.string().trim().min(1),
             weekDays: z.array(
                 z.number().min(0).max(6)
-            ),
+            ).min(1),
         })
 
         try {
@@ -67,12 +67,12 @@ export class HabitController {
 
     update = async (req: Request, res: Response) => {
         const updateHabitBody = z.object({
-            name: z.string(),
-            schedule: z.string().trim(),
+            name: z.string().min(5),
+            schedule: z.string().trim().min(1),
             isCompleted: z.boolean(),
             weekDays: z.array(
                 z.number().min(0).max(6)
-            ),
+            ).min(1),
         })
 
         const updateHabitParams = z.object({
