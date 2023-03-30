@@ -44,6 +44,9 @@ export class HabitService {
 
         const availableHabits = await HabitService.prisma.habit.findMany({
             where: {
+                createdAt: {
+                    lte: parsedDate
+                },
                 weekDays: {
                     some: {
                         week_day: weekDay
