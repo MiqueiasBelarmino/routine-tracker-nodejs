@@ -145,6 +145,8 @@ export class HabitService {
                     id: dayHabit.id
                 }
             })
+            
+            return "uncompleted";
         } else {
             await HabitService.prisma.dayHabit.create({
                 data: {
@@ -152,6 +154,8 @@ export class HabitService {
                     habit_id: id
                 }
             })
+
+            return "completed";
         }
     }
 

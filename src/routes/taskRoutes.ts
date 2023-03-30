@@ -1,5 +1,4 @@
 import { TaskController } from './../controllers/TaskController';
-import { HabitController } from '../controllers/HabitController';
 import { Router } from 'express';
 
 const taskRouter = Router();

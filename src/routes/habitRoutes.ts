@@ -16,7 +16,7 @@ habitsRouter
 .delete(habitController.delete);
 
 habitsRouter.patch('/habits/:id/toggle', habitController.toggle);
-habitsRouter.get('/day', habitController.findByDay);
+habitsRouter.post('/day', habitController.findByDay);
 habitsRouter.get('/summary', habitController.summary);
 
 export default habitsRouter;
