@@ -29,10 +29,20 @@ Tasks examples:
     npx prisma migrate dev
     npx prisma db seed
     npm run dev
+    
+## Languages and Tools
+- Node.js
+- Typescript
+- Express.js
+- Prisma ORM
+- Zod (Schema Validation)
+- Swagger
+
 # Endpoints
 
 | Type | Endpoint | Description | Finished | 
 | ---- | ---- | --------------- | ---------|
+| GET | /docs | swagger documentation | ✅ |
 | GET | /habits | get all habits | ✅ |
 | POST | /habits | create a habit | ✅ |
 | GET | /habit/{id} | get a specific habit | ✅ |
