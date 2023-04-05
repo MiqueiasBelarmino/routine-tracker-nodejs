@@ -18,8 +18,8 @@ async function main() {
     prisma.habit.create({
       data: {
         id: firstHabitId,
-        name: 'Acordar cedo',
-        createdAt: new Date('2023-01-15T03:00:00.000Z'),
+        name: 'Take a 10-15 minute walk in the afternoon',
+        createdAt: new Date('2023-01-15T00:00:00.000Z'),
         schedule: SCHEDULE.MONING,
         weekDays: {
           create: [
@@ -35,9 +35,9 @@ async function main() {
     prisma.habit.create({
       data: {
         id: secondHabitId,
-        name: 'Estudar Bona',
-        createdAt: new Date('2023-01-16T03:00:00.000Z'),
-        schedule: SCHEDULE.ALL_DAY,
+        name: 'Read for 30 minutes before bed',
+        createdAt: new Date('2023-01-16T00:00:00.000Z'),
+        schedule: SCHEDULE.NIGHT,
         weekDays: {
           create: [
             { week_day: 0 },
@@ -54,9 +54,54 @@ async function main() {
     prisma.habit.create({
       data: {
         id: thirdHabitId,
-        name: 'Praticar cello',
+        name: 'Take out the trash',
         createdAt: dateToMidnightISODate(new Date()),
         schedule: SCHEDULE.NIGHT,
+        weekDays: {
+          create: [
+            { week_day: 0 },
+            { week_day: 2 },
+            { week_day: 4 },
+          ]
+        }
+      }
+    }),
+    prisma.habit.create({
+      data: {
+        name: 'Make your bed in the morning',
+        createdAt: new Date('2023-01-15T00:00:00.000Z'),
+        schedule: SCHEDULE.MONING,
+        weekDays: {
+          create: [
+            { week_day: 0 },
+            { week_day: 1 },
+            { week_day: 2 },
+            { week_day: 3 },
+            { week_day: 4 },
+            { week_day: 5 },
+            { week_day: 6 },
+          ]
+        }
+      }
+    }),
+    prisma.habit.create({
+      data: {
+        name: 'Do a load of laundry',
+        createdAt: new Date('2023-01-15T00:00:00.000Z'),
+        schedule: SCHEDULE.MONING,
+        weekDays: {
+          create: [
+            { week_day: 5 },
+            { week_day: 6 },
+          ]
+        }
+      }
+    }),
+    prisma.habit.create({
+      data: {
+        name: 'Cello practice',
+        createdAt: new Date('2023-01-15T00:00:00.000Z'),
+        schedule: SCHEDULE.MONING,
         weekDays: {
           create: [
             { week_day: 0 },
@@ -75,7 +120,7 @@ async function main() {
   await Promise.all([
     prisma.day.create({
       data: {
-        date: new Date('2023-01-17T03:00:00.000Z'),
+        date: new Date('2023-01-17T00:00:00.000Z'),
         dayHabits: {
           create: {
             habit_id: firstHabitId
@@ -85,7 +130,7 @@ async function main() {
     }),
     prisma.day.create({
       data: {
-        date: new Date('2023-01-20T03:00:00.000Z'),
+        date: new Date('2023-01-20T00:00:00.000Z'),
         dayHabits: {
           create: [
             { habit_id: firstHabitId },

@@ -19,7 +19,7 @@ export class HabitController {
         try {
             const habit = createHabitParams.parse(req.body);
             const createdHabit = await new HabitService().create(habit);
-            res.json({ data: createdHabit });
+            res.json(createdHabit);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -29,7 +29,7 @@ export class HabitController {
 
         try {
             const habits = await new HabitService().findAll();
-            res.json({ data: habits });
+            res.json(habits);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -44,7 +44,7 @@ export class HabitController {
         try {
             const { id } = params.parse(req.params);
             const habits = await new HabitService().findById(id);
-            res.json({ data: habits });
+            res.json(habits);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -59,7 +59,7 @@ export class HabitController {
         try {
             const { date } = dayParams.parse(req.body);
             const habits = await new HabitService().findByDay(date);
-            res.json({ data: habits });
+            res.json(habits);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -83,7 +83,7 @@ export class HabitController {
             const { id } = updateHabitParams.parse(req.params);
             const habit = updateHabitBody.parse(req.body);
             const updatedHabit = await new HabitService().update(id, habit);
-            res.json({ data: updatedHabit });
+            res.json(updatedHabit);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -98,7 +98,7 @@ export class HabitController {
         try {
             const { id } = deleteHabitParams.parse(req.params);
             const deletedHabit = await new HabitService().delete(id);
-            res.json({ data: deletedHabit });
+            res.json(deletedHabit);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -117,9 +117,8 @@ export class HabitController {
         try {
             const { id } = toggleHabitParams.parse(req.params);
             const { date } = toggleHabitBody.parse(req.body);
-            // const date = dateToMidnightISODate(new Date());
-            const habit = await new HabitService().toggle(id, date);
-            res.json({ data: habit });
+            const habit = await new HabitService().toggle(id, dateToMidnightISODate(date));
+            res.json(habit);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -129,7 +128,7 @@ export class HabitController {
 
         try {
             const habits = await new HabitService().summary();
-            res.json({ data: habits });
+            res.json(habits);
         } catch (error) {
             res.status(500).send(error);
         }
