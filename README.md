@@ -19,7 +19,7 @@ Tasks examples:
 3. Medical appointment.
 4. Plan a vacation
 
-## Install & Run
+# Install & Run
 
     clone repo
     npm install
@@ -30,7 +30,7 @@ Tasks examples:
     npx prisma db seed
     npm run dev
     
-## Languages and Tools
+# Languages and Tools
 - Node.js
 - Typescript
 - Express.js
