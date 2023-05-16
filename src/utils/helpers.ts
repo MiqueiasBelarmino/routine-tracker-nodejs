@@ -1,10 +1,17 @@
-export function addDays(date: Date, days: number): Date{
+export function addDays(date: Date, days: number): Date {
     var date = new Date(date.valueOf());
     date.setDate(date.getDate() + days);
-    return new Date(date.setHours(0,0,0,0));
+    return new Date(date.setHours(0, 0, 0, 0));
 };
 
-export function dateToMidnightISODate(date: Date): Date{
+export function addHours(date: Date, hours: number): Date {
     var date = new Date(date.valueOf());
-    return new Date(`${date.toISOString().split('T')[0]}T03:00:00.000Z`);
+    date.setHours(new Date().getHours() + (hours));
+    return date;
+};
+
+export function dateToMidnightISODate(date?: Date): Date {
+    var parsedDate = new Date(date?.valueOf() || new Date());
+    parsedDate = addHours(parsedDate, -(parsedDate.getTimezoneOffset()/60));
+    return new Date(`${parsedDate.toISOString().split('T')[0]}T00:00:00.000Z`);
 }

@@ -1,6 +1,6 @@
+import { Habit } from './../models/Habit';
 import { dateToMidnightISODate } from "../utils/helpers";
 import { PrismaClientCon } from "../lib/prisma"
-import { Habit } from "../models/Habit";
 import { SCHEDULE } from "../utils/consts";
 
 export class HabitService {
@@ -68,10 +68,24 @@ export class HabitService {
         const completedHabits = day?.dayHabits.map((dayHabit) => {
             return dayHabit.habit_id
         });
+        
+        const mappedHabits = availableHabits.map((habit)=>{
+            return {
+                ...habit,
+                done: completedHabits?.includes(habit.id) || false
+            }
+        });
 
         return {
-            availableHabits,
-            completedHabits
+            availableHabits: mappedHabits.sort(( a, b )=> {
+                if ( a.done < b.done ){
+                  return -1;
+                }
+                if ( a.done > b.done ){
+                  return 1;
+                }
+                return 0;
+              })
         }
     }
 

@@ -17,9 +17,8 @@ export class TaskController {
         
         try {
             const task = createTaskParams.parse(req.body);
-            console.log(task)
             const createdTask = await new TaskService().create(task);
-            res.json({ data: createdTask });
+            res.json(createdTask);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -29,7 +28,7 @@ export class TaskController {
 
         try {
             const tasks = await new TaskService().findAll();
-            res.json({ data: tasks });
+            res.json(tasks);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -44,7 +43,7 @@ export class TaskController {
         try {
             const { id } = params.parse(req.params);
             const task = await new TaskService().findById(id);
-            res.json({ data: task });
+            res.json(task);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -59,7 +58,7 @@ export class TaskController {
         try {
             const { date } = dayParams.parse(req.body);
             const tasks = await new TaskService().findByDay(date);
-            res.json({ data: tasks });
+            res.json(tasks);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -81,7 +80,7 @@ export class TaskController {
             const { id } = updateTaskParams.parse(req.params);
             const task = updateTaskBody.parse(req.body);
             const updatedTask = await new TaskService().update(id, task);
-            res.json({ data: updatedTask });
+            res.json(updatedTask);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -99,7 +98,7 @@ export class TaskController {
             if(deletedTask.statusCode){
                 res.status(deletedTask.statusCode).json({ data: {message: deletedTask.message } });
             }else {
-                res.json({ data: deletedTask });
+                res.json(deletedTask);
             }
         } catch (error) {
             res.status(500).send(error);
@@ -120,7 +119,7 @@ export class TaskController {
             const { id } = toggleTaskParams.parse(req.params);
             const { date } = toggleTaskBody.parse(req.body);
             const task = await new TaskService().toggle(id, date);
-            res.json({ data: { toggleTo: task }});
+            res.json(task);
         } catch (error) {
             res.status(500).send(error);
         }
