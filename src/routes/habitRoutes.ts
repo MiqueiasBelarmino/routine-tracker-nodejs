@@ -1,3 +1,4 @@
+import { authenticated } from '../middlewares/authenticated';
 import { HabitController } from './../controllers/HabitController';
 import { Router } from 'express';
 
