@@ -5,6 +5,8 @@ import { Router } from 'express';
 const habitsRouter = Router();
 const habitController = new HabitController();
 
+habitsRouter.use(authenticated);
+
 habitsRouter
 .route('/habits')
 .get(habitController.findAll)

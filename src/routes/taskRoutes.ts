@@ -1,8 +1,11 @@
+import { authenticated } from '../middlewares/authenticated';
 import { TaskController } from './../controllers/TaskController';
 import { Router } from 'express';
 
 const taskRouter = Router();
 const taskController = new TaskController();
+
+taskRouter.use(authenticated);
 
 taskRouter
 .route('/tasks')
