@@ -55,7 +55,7 @@ export class UserService {
 
         const token = sign({}, process.env.JWT_KEY,{
             subject: userAlreadyExists!.id,
-            expiresIn: "20s"
+            expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME
         });
 
         let refreshToken = null;
