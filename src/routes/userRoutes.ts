@@ -1,15 +1,12 @@
 import { UserController } from '../controllers/UserController';
 import { Router } from 'express';
+import { authenticated } from '../middlewares/authenticated';
 
 const usersRouter = Router();
 const userController = new UserController(); 
 
-usersRouter
-.route('/users')
-.post(userController.create);
+usersRouter.post('/users', authenticated, userController.create);
 
-usersRouter
-.route('/users/authenticate')
-.post(userController.authenticate);
+usersRouter.post('/users/authenticate', userController.authenticate);
 
 export default usersRouter;

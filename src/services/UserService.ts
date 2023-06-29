@@ -35,7 +35,7 @@ export class UserService {
         return { createdUser };
     }
 
-    authenticate = async ({ username, password } : Partial<IUserResquest>) => {
+    authenticate = async ({ username, password } : Partial<IUserResquest>): Promise<any> => {
        
         const userAlreadyExists = await this.isUserAlreadyCreated(username!);
 
