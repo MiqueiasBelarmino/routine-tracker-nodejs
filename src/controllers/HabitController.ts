@@ -111,13 +111,14 @@ export class HabitController {
         })
 
         const toggleHabitBody = z.object({
-            date: z.coerce.date()
+            date: z.coerce.date(),
+            userId: z.string().uuid()
         })
 
         try {
             const { id } = toggleHabitParams.parse(req.params);
-            const { date } = toggleHabitBody.parse(req.body);
-            const habit = await new HabitService().toggle(id, dateToMidnightISODate(date));
+            const { date, userId } = toggleHabitBody.parse(req.body);
+            const habit = await new HabitService().toggle(id, dateToMidnightISODate(date), userId);
             res.json(habit);
         } catch (error) {
             res.status(500).send(error);

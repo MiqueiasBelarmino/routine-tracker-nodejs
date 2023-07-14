@@ -6,4 +6,5 @@ export class Habit implements HabitSchema {
     schedule!: string;
     createdAt!: Date;
     weekDays!: number[];
+    user_id!: string;
 }
