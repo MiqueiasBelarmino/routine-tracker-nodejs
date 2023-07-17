@@ -1,3 +1,5 @@
+import { sign } from "jsonwebtoken";
+
 export function addDays(date: Date, days: number): Date {
     var date = new Date(date.valueOf());
     date.setDate(date.getDate() + days);
@@ -12,6 +14,15 @@ export function addHours(date: Date, hours: number): Date {
 
 export function dateToMidnightISODate(date?: Date): Date {
     var parsedDate = new Date(date?.valueOf() || new Date());
-    parsedDate = addHours(parsedDate, -(parsedDate.getTimezoneOffset()/60));
+    parsedDate = addHours(parsedDate, -(parsedDate.getTimezoneOffset() / 60));
     return new Date(`${parsedDate.toISOString().split('T')[0]}T00:00:00.000Z`);
+}
+
+export async function generateTokenJWT(userId: string) {
+    const token = sign({}, process.env.JWT_KEY, {
+        subject: userId,
+        expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME
+    });
+
+    return token;
 }

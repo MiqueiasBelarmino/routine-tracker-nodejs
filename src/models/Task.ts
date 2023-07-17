@@ -7,4 +7,5 @@ export class Task implements TaskSchema {
     priority!: number; 
     createdAt!: Date; 
     isCompleted!: boolean;
+    user_id!: string;
 }

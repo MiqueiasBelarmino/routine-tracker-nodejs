@@ -17,7 +17,8 @@ export class HabitService {
                 schedule: habit.schedule || SCHEDULE.ALL_DAY,
                 weekDays: {
                     create: weekDays
-                }
+                },
+                user_id: habit.user_id!
             }
         });
         return { createdHabit };
@@ -131,7 +132,7 @@ export class HabitService {
         return deletedHabit;
     }
 
-    toggle = async (id: string, date: Date) => {
+    toggle = async (id: string, date: Date, userId: string) => {
 
         let day = await HabitService.prisma.day.findUnique({
             where: {
@@ -168,7 +169,8 @@ export class HabitService {
             await HabitService.prisma.dayHabit.create({
                 data: {
                     day_id: day.id,
-                    habit_id: id
+                    habit_id: id,
+                    user_id: userId
                 }
             })
 

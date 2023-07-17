@@ -10,6 +10,7 @@ export class TaskService {
 
         const createdTask = await TaskService.prisma.task.create({
             data: {
+                user_id: task.user_id!,
                 name: task.name!,
                 target_date: task.target_date || dateToMidnightISODate(new Date()),
                 priority: Number(task.priority),
