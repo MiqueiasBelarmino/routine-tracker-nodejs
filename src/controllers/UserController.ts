@@ -46,4 +46,18 @@ export class UserController {
         }
     }
 
+    loadSession = async (req: Request, res: Response) => {
+        const token = req.headers.authorization?.split(' ')[1] || '';
+        if(token.length < 1){
+            res.status(401).send({message: "Token is missing"});
+        }
+
+        try {
+            const session = await UserController.userService.loadSession(token);
+            res.json(session);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
+
 }
