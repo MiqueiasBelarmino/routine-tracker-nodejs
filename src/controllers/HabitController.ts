@@ -14,6 +14,7 @@ export class HabitController {
             weekDays: z.array(
                 z.number().min(0).max(6)
             ).min(1),
+            user_id: z.string().uuid()
         })
 
         try {
