@@ -38,6 +38,8 @@ Tasks examples:
 - Zod (Schema Validation)
 - Swagger
 
+# Deploy
+## https://routine-traker-nodejs.onrender.com/api/v1
 # Endpoints
 
 | Type | Endpoint | Description | Finished | 
