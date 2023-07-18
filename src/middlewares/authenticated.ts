@@ -15,7 +15,7 @@ export function authenticated(request: Request, response: Response, next: NextFu
     const [,token] = authToken.split(" ");
 
     try {
-        verify(token, process.env.JWT_KEY);
+        verify(token, process.env.JWT_KEY as string);
         return next();
     } catch (error) {
         return response.status(401).json({

@@ -19,9 +19,9 @@ export function dateToMidnightISODate(date?: Date): Date {
 }
 
 export async function generateTokenJWT(userId: string) {
-    const token = sign({}, process.env.JWT_KEY, {
+    const token = sign({}, process.env.JWT_KEY as string, {
         subject: userId,
-        expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME
+        expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME  as string
     });
 
     return token;

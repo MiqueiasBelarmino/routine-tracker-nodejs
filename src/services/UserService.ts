@@ -59,9 +59,9 @@ export class UserService {
             }
         }
 
-        const token = sign({}, process.env.JWT_KEY, {
+        const token = sign({}, process.env.JWT_KEY as string, {
             subject: userAlreadyExists!.id,
-            expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME
+            expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME as string
         });
 
         let refreshToken = null;
@@ -82,7 +82,7 @@ export class UserService {
     loadSession = async (token: string) => {
         // const token = req.headers.authorization.split(' ')[1]
 
-        return verify(token, process.env.JWT_KEY, async (err, decoded) => {
+        return verify(token, process.env.JWT_KEY as string, async (err, decoded) => {
             if (err) {
                 return { error: true, status: 401, message: 'Invalid/Expired session' }
             }
