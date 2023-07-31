@@ -21,27 +21,39 @@ export class TaskService {
         return { createdTask };
     }
 
-    findAll = async () => {
-        const availableTasks = await TaskService.prisma.task.findMany();
+    findAll = async (userId: string) => {
+        const availableTasks = await TaskService.prisma.task.findMany({
+            where: {
+                user_id: {
+                    equals: userId
+                }
+            }
+        });
         return { availableTasks };
     }
 
-    findById = async (id: string) => {
-        const task = await TaskService.prisma.task.findUnique({
+    findById = async (id: string, userId: string) => {
+        const task = await TaskService.prisma.task.findMany({
             where: {
-                id: id
+                id: id,
+                user_id: {
+                    equals: userId
+                }
             }
         });
 
         return { task }
     }
 
-    findByDay = async (date: Date) => {
+    findByDay = async (date: Date, userId: string) => {
         const parsedDate = dateToMidnightISODate(date);
 
         const availableTasks = await TaskService.prisma.task.findMany({
             where: {
                 createdAt: parsedDate,
+                user_id: {
+                    equals: userId
+                }
             }
         });
 
@@ -65,10 +77,13 @@ export class TaskService {
         return { updatedTask };
     }
 
-    delete = async (id: string) => {
-        const task = await TaskService.prisma.task.findUnique({
+    delete = async (id: string, userId: string) => {
+        const task = await TaskService.prisma.task.findMany({
             where: {
-                id: id
+                id: id,
+                user_id: {
+                    equals: userId
+                }
             }
         });
 
@@ -86,13 +101,18 @@ export class TaskService {
 
     }
 
-    toggle = async (id: string, date: Date) => {
+    toggle = async (id: string, date: Date, userId: string) => {
 
-        let task = await TaskService.prisma.task.findUnique({
+        let tasks = await TaskService.prisma.task.findMany({
             where: {
-                id: id
+                id: id,
+                user_id: {
+                    equals: userId
+                }
             }
         });
+
+        const task = tasks[0];
 
         if (task) {
             let isCompleted = false;

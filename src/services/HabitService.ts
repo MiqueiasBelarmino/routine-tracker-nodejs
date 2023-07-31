@@ -24,22 +24,32 @@ export class HabitService {
         return { createdHabit };
     }
 
-    findAll = async () => {
-        const availableHabits = await HabitService.prisma.habit.findMany();
+    findAll = async (userId: string) => {
+        const availableHabits = await HabitService.prisma.habit.findMany({
+            where: {
+                user_id: userId
+            }
+        });
         return { availableHabits };
     }
 
-    findById = async (id: string) => {
-        const availableHabits = await HabitService.prisma.habit.findUnique({
+    findById = async (id: string, userId: string) => {
+        const availableHabits = await HabitService.prisma.habit.findMany({
             where: {
-                id: id
-            }
+                id: {
+                    equals: id
+                },
+                user_id: {
+                    equals: userId
+                }
+            },
+            
         });
 
         return { availableHabits }
     }
 
-    findByDay = async (date: Date) => {
+    findByDay = async (date: Date, userId: string) => {
         const weekDay = dateToMidnightISODate(date).getDay();
         const parsedDate = dateToMidnightISODate(date);
 
@@ -52,6 +62,9 @@ export class HabitService {
                     some: {
                         week_day: weekDay
                     }
+                },
+                user_id: {
+                    equals: userId
                 }
             }
         });
@@ -111,25 +124,37 @@ export class HabitService {
         return updatedHabit;
     }
 
-    delete = async (id: string) => {
-        await HabitService.prisma.habitWeekDay.deleteMany({
+    delete = async (id: string, userId: string) => {
+        const habit = await HabitService.prisma.habit.findMany({
             where: {
-                habit_id: id
-            }
-        })
-
-        await HabitService.prisma.dayHabit.deleteMany({
-            where: {
-                habit_id: id
-            }
-        })
-
-        const deletedHabit = await HabitService.prisma.habit.delete({
-            where: {
-                id: id
+                id: id,
+                user_id: userId
             }
         });
-        return deletedHabit;
+
+        if(habit){
+            const habitWeekDay = await HabitService.prisma.habitWeekDay.deleteMany({
+                where: {
+                    habit_id: id
+                }
+            })
+            
+            const dayHabit = await HabitService.prisma.dayHabit.deleteMany({
+                where: {
+                    habit_id: id,
+                    user_id: userId
+                }
+            })
+            const deletedHabit = await HabitService.prisma.habit.delete({
+                where: {
+                    id: id
+                }
+            });
+
+            return { deletedHabit };
+        }else{
+            return { statusCode: 404, message: "Habit not found"}
+        }
     }
 
     toggle = async (id: string, date: Date, userId: string) => {
@@ -158,9 +183,12 @@ export class HabitService {
         });
 
         if (dayHabit) {
-            await HabitService.prisma.dayHabit.delete({
+            await HabitService.prisma.dayHabit.deleteMany({
                 where: {
-                    id: dayHabit.id
+                    id: dayHabit.id,
+                    user_id: {
+                        equals: userId
+                    }
                 }
             })
             
