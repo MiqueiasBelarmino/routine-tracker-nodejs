@@ -27,9 +27,13 @@ export class HabitController {
     }
 
     findAll = async (req: Request, res: Response) => {
+        const findAllParams = z.object({
+            user_id: z.string().uuid()
+        })
 
         try {
-            const habits = await new HabitService().findAll();
+            const { user_id } = findAllParams.parse(req.body);
+            const habits = await new HabitService().findAll(user_id);
             res.json(habits);
         } catch (error) {
             res.status(500).send(error);
@@ -42,9 +46,14 @@ export class HabitController {
             id: z.string().uuid()
         })
 
+        const body = z.object({
+            user_id: z.string().uuid()
+        })
+
         try {
             const { id } = params.parse(req.params);
-            const habits = await new HabitService().findById(id);
+            const { user_id } = body.parse(req.body);
+            const habits = await new HabitService().findById(id, user_id);
             res.json(habits);
         } catch (error) {
             res.status(500).send(error);
@@ -54,12 +63,13 @@ export class HabitController {
     findByDay = async (req: Request, res: Response) => {
 
         const dayParams = z.object({
-            date: z.coerce.date()
+            date: z.coerce.date(),
+            user_id: z.string().uuid()
         })
 
         try {
-            const { date } = dayParams.parse(req.body);
-            const habits = await new HabitService().findByDay(date);
+            const { date, user_id} = dayParams.parse(req.body);
+            const habits = await new HabitService().findByDay(date, user_id);
             res.json(habits);
         } catch (error) {
             res.status(500).send(error);
@@ -96,10 +106,19 @@ export class HabitController {
             id: z.string().uuid()
         })
 
+        const body = z.object({
+            user_id: z.string().uuid()
+        })
+
         try {
             const { id } = deleteHabitParams.parse(req.params);
-            const deletedHabit = await new HabitService().delete(id);
-            res.json(deletedHabit);
+            const { user_id } = body.parse(req.body);
+            const deletedHabit = await new HabitService().delete(id, user_id);
+            if(deletedHabit.statusCode){
+                res.status(deletedHabit.statusCode).send(deletedHabit.message);
+            }else{
+                res.json(deletedHabit);
+            }
         } catch (error) {
             res.status(500).send(error);
         }
@@ -113,13 +132,13 @@ export class HabitController {
 
         const toggleHabitBody = z.object({
             date: z.coerce.date(),
-            userId: z.string().uuid()
+            user_id: z.string().uuid()
         })
 
         try {
             const { id } = toggleHabitParams.parse(req.params);
-            const { date, userId } = toggleHabitBody.parse(req.body);
-            const habit = await new HabitService().toggle(id, dateToMidnightISODate(date), userId);
+            const { date, user_id } = toggleHabitBody.parse(req.body);
+            const habit = await new HabitService().toggle(id, dateToMidnightISODate(date), user_id);
             res.json(habit);
         } catch (error) {
             res.status(500).send(error);
