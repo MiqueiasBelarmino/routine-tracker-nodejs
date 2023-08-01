@@ -2,6 +2,7 @@ import { PrismaClientCon } from "../lib/prisma"
 import { compare, hash } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
 import { RefreshTokenController } from '../controllers/RefreshTokenController';
+import CryptoJS from 'crypto-js';
 
 interface IUserResquest {
     name: string;
@@ -39,6 +40,7 @@ export class UserService {
 
     authenticate = async ({ username, password }: Partial<IUserResquest>): Promise<any> => {
 
+        const plainPassword = CryptoJS.AES.decrypt(password!,process.env.AES_SECRET as string).toString(CryptoJS.enc.Utf8);
         const userAlreadyExists = await this.isUserAlreadyCreated(username!);
 
         if (!userAlreadyExists) {
@@ -49,7 +51,7 @@ export class UserService {
             }
         }
 
-        const isValidUser = await compare(password!, userAlreadyExists!.password);
+        const isValidUser = await compare(plainPassword, userAlreadyExists!.password);
 
         if (!isValidUser) {
             return {
