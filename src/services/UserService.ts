@@ -35,7 +35,7 @@ export class UserService {
             }
         });
 
-        return { createdUser };
+        return { createdUser: { id:createdUser.id, name: createdUser.name } };
     }
 
     authenticate = async ({ username, password }: Partial<IUserResquest>): Promise<any> => {
