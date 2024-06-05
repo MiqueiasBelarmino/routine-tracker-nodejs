@@ -8,9 +8,9 @@ export class UserController {
 
     create = async (req: Request, res: Response) => {
         const createUserParams = z.object({
-            name: z.string().trim().min(10),
-            username: z.string().trim().min(8),
-            password: z.string().trim().min(8),
+            name: z.string().trim().min(5),
+            username: z.string().trim().min(5),
+            password: z.string().trim().min(5),
         })
 
         try {
