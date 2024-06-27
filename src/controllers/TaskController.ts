@@ -1,7 +1,6 @@
 import { TaskService } from '../services/TaskService';
 import { z } from 'zod';
 import { Request, Response } from 'express';
-import { dateToMidnightISODate } from '../utils/helpers';
 
 export class TaskController {
 
@@ -26,13 +25,13 @@ export class TaskController {
 
     findAll = async (req: Request, res: Response) => {
         const params = z.object({
-            user_id: z.string().uuid()
+            userId: z.string().uuid()
         })
         
         try {
 
-            const { user_id } = params.parse(req.body);
-            const tasks = await new TaskService().findAll(user_id);
+            const { userId } = params.parse(req.body);
+            const tasks = await new TaskService().findAll(userId);
             res.json(tasks);
         } catch (error) {
             res.status(500).send(error);
@@ -46,13 +45,13 @@ export class TaskController {
         })
 
         const deleteTaskBody = z.object({
-            user_id: z.string().uuid()
+            userId: z.string().uuid()
         })
 
         try {
             const { id } = params.parse(req.params);
-            const { user_id } = deleteTaskBody.parse(req.body);
-            const task = await new TaskService().findById(id, user_id);
+            const { userId } = deleteTaskBody.parse(req.body);
+            const task = await new TaskService().findById(id, userId);
             res.json(task);
         } catch (error) {
             res.status(500).send(error);
@@ -63,12 +62,12 @@ export class TaskController {
 
         const dayParams = z.object({
             date: z.coerce.date(),
-            user_id: z.string().uuid()
+            userId: z.string().uuid()
         })
 
         try {
-            const { date, user_id } = dayParams.parse(req.body);
-            const tasks = await new TaskService().findByDay(date, user_id);
+            const { date, userId } = dayParams.parse(req.body);
+            const tasks = await new TaskService().findByDay(date, userId);
             res.json(tasks);
         } catch (error) {
             res.status(500).send(error);
@@ -104,13 +103,13 @@ export class TaskController {
         })
 
         const deleteTaskBody = z.object({
-            user_id: z.string().uuid()
+            userId: z.string().uuid()
         })
 
         try {
             const { id } = deleteTaskParams.parse(req.params);
-            const { user_id } = deleteTaskBody.parse(req.body);
-            const deletedTask = await new TaskService().delete(id, user_id);
+            const { userId } = deleteTaskBody.parse(req.body);
+            const deletedTask = await new TaskService().delete(id, userId);
             if(deletedTask.statusCode){
                 res.status(deletedTask.statusCode).json({ data: {message: deletedTask.message } });
             }else {
@@ -129,13 +128,13 @@ export class TaskController {
 
         const toggleTaskBody = z.object({
             date: z.coerce.date(),
-            user_id: z.string().uuid()
+            userId: z.string().uuid()
         })
 
         try {
             const { id } = toggleTaskParams.parse(req.params);
-            const { date, user_id } = toggleTaskBody.parse(req.body);
-            const task = await new TaskService().toggle(id, date, user_id);
+            const { date, userId } = toggleTaskBody.parse(req.body);
+            const task = await new TaskService().toggle(id, date, userId);
             res.json(task);
         } catch (error) {
             res.status(500).send(error);
