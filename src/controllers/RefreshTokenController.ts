@@ -7,18 +7,18 @@ export class RefreshTokenController {
 
         await PrismaClientCon.refreshToken.deleteMany({
             where: {
-                 user_id: userId
+                 userId: userId
             }
         });
 
         const generatedRefreshToken = await PrismaClientCon.refreshToken.create({
             data: {
-                user_id: userId,
-                expires_in: addDays(dateToMidnightISODate(), 15).getTime()
+                userId: userId,
+                expiresIn: addDays(dateToMidnightISODate(), 15).getTime()
             }
         });
 
-        return { id: generatedRefreshToken.id, user_id: generatedRefreshToken.user_id, expires_in: generatedRefreshToken.expires_in.toString()};
+        return { id: generatedRefreshToken.id, userId: generatedRefreshToken.userId, expiresIn: generatedRefreshToken.expiresIn.toString()};
     }
 
     refresh = async (refresh_token: string) => {
@@ -35,7 +35,7 @@ export class RefreshTokenController {
             ]}
         }
 
-        const token = await generateTokenJWT(refreshToken.user_id);
+        const token = await generateTokenJWT(refreshToken.userId);
 
         return { token }
     }
