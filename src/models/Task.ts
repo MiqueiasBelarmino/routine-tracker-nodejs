@@ -1,6 +1,4 @@
-import { Task as TaskSchema } from "@prisma/client";
-
-export class Task implements TaskSchema {
+export class Task {
     id!: string;
     name!: string;
     targetDate!: Date; 

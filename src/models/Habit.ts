@@ -1,6 +1,4 @@
-import { Habit as HabitSchema } from "@prisma/client";
-
-export class Habit implements HabitSchema {
+export class Habit {
     id!: string;
     name!: string;
     schedule!: string;

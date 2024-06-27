@@ -79,11 +79,11 @@ export class HabitService {
 
         });
 
-        const completedHabits = day?.dayHabits.map((dayHabit) => {
+        const completedHabits = day?.dayHabits.map((dayHabit: any) => {
             return dayHabit.habitId
         });
         
-        const mappedHabits = availableHabits.map((habit)=>{
+        const mappedHabits = availableHabits.map((habit: any)=>{
             return {
                 ...habit,
                 done: completedHabits?.includes(habit.id) || false
@@ -91,7 +91,7 @@ export class HabitService {
         });
 
         return {
-            availableHabits: mappedHabits.sort(( a, b )=> {
+            availableHabits: mappedHabits.sort(( a: any, b: any )=> {
                 if ( a.done < b.done ){
                   return -1;
                 }
