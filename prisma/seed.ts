@@ -61,17 +61,17 @@ async function main() {
         prisma.habit.create({
           data: {
             id: firstHabitId,
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Take a 10-15 minute walk in the afternoon',
             createdAt: new Date('2023-01-15T00:00:00.000Z'),
             schedule: SCHEDULE.MONING,
             weekDays: {
               create: [
-                { week_day: 1 },
-                { week_day: 2 },
-                { week_day: 3 },
-                { week_day: 4 },
-                { week_day: 5 },
+                { weekDay: 1 },
+                { weekDay: 2 },
+                { weekDay: 3 },
+                { weekDay: 4 },
+                { weekDay: 5 },
               ]
             }
           }
@@ -79,19 +79,19 @@ async function main() {
         prisma.habit.create({
           data: {
             id: secondHabitId,
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Read for 30 minutes before bed',
             createdAt: new Date('2023-01-16T00:00:00.000Z'),
             schedule: SCHEDULE.NIGHT,
             weekDays: {
               create: [
-                { week_day: 0 },
-                { week_day: 1 },
-                { week_day: 2 },
-                { week_day: 3 },
-                { week_day: 4 },
-                { week_day: 5 },
-                { week_day: 6 },
+                { weekDay: 0 },
+                { weekDay: 1 },
+                { weekDay: 2 },
+                { weekDay: 3 },
+                { weekDay: 4 },
+                { weekDay: 5 },
+                { weekDay: 6 },
               ]
             }
           }
@@ -99,67 +99,67 @@ async function main() {
         prisma.habit.create({
           data: {
             id: thirdHabitId,
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Take out the trash',
             createdAt: dateToMidnightISODate(new Date()),
             schedule: SCHEDULE.NIGHT,
             weekDays: {
               create: [
-                { week_day: 0 },
-                { week_day: 2 },
-                { week_day: 4 },
+                { weekDay: 0 },
+                { weekDay: 2 },
+                { weekDay: 4 },
               ]
             }
           }
         }),
         prisma.habit.create({
           data: {
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Make your bed in the morning',
             createdAt: new Date('2023-01-15T00:00:00.000Z'),
             schedule: SCHEDULE.MONING,
             weekDays: {
               create: [
-                { week_day: 0 },
-                { week_day: 1 },
-                { week_day: 2 },
-                { week_day: 3 },
-                { week_day: 4 },
-                { week_day: 5 },
-                { week_day: 6 },
+                { weekDay: 0 },
+                { weekDay: 1 },
+                { weekDay: 2 },
+                { weekDay: 3 },
+                { weekDay: 4 },
+                { weekDay: 5 },
+                { weekDay: 6 },
               ]
             }
           }
         }),
         prisma.habit.create({
           data: {
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Do a load of laundry',
             createdAt: new Date('2023-01-15T00:00:00.000Z'),
             schedule: SCHEDULE.MONING,
             weekDays: {
               create: [
-                { week_day: 5 },
-                { week_day: 6 },
+                { weekDay: 5 },
+                { weekDay: 6 },
               ]
             }
           }
         }),
         prisma.habit.create({
           data: {
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Cello practice',
             createdAt: new Date('2023-01-15T00:00:00.000Z'),
             schedule: SCHEDULE.MONING,
             weekDays: {
               create: [
-                { week_day: 0 },
-                { week_day: 1 },
-                { week_day: 2 },
-                { week_day: 3 },
-                { week_day: 4 },
-                { week_day: 5 },
-                { week_day: 6 },
+                { weekDay: 0 },
+                { weekDay: 1 },
+                { weekDay: 2 },
+                { weekDay: 3 },
+                { weekDay: 4 },
+                { weekDay: 5 },
+                { weekDay: 6 },
               ]
             }
           }
@@ -172,8 +172,8 @@ async function main() {
             date: new Date('2023-01-17T00:00:00.000Z'),
             dayHabits: {
               create: {
-                habit_id: firstHabitId,
-                user_id: testUserId,
+                habitId: firstHabitId,
+                userId: testUserId,
               }
             }
           }
@@ -183,8 +183,8 @@ async function main() {
             date: new Date('2023-01-20T00:00:00.000Z'),
             dayHabits: {
               create: [
-                { habit_id: firstHabitId, user_id: testUserId, },
-                { habit_id: secondHabitId, user_id: testUserId, }
+                { habitId: firstHabitId, userId: testUserId, },
+                { habitId: secondHabitId, userId: testUserId, }
               ]
             }
           }
@@ -194,9 +194,9 @@ async function main() {
       await Promise.all([
         prisma.task.create({
           data: {
-            user_id: testUserId,
+            userId: testUserId,
             name: 'buy some flowers',
-            target_date: dateToMidnightISODate(addDays(new Date(), 2)),
+            targetDate: dateToMidnightISODate(addDays(new Date(), 2)),
             priority: 1,
             createdAt: dateToMidnightISODate(new Date()),
             isCompleted: false,
@@ -204,9 +204,9 @@ async function main() {
         }),
         prisma.task.create({
           data: {
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Prepare to restaurant',
-            target_date: dateToMidnightISODate(addDays(new Date(), 1)),
+            targetDate: dateToMidnightISODate(addDays(new Date(), 1)),
             priority: 1,
             createdAt: dateToMidnightISODate(new Date()),
             isCompleted: false,
@@ -214,9 +214,9 @@ async function main() {
         }),
         prisma.task.create({
           data: {
-            user_id: testUserId,
+            userId: testUserId,
             name: 'Schedule XPTO call',
-            target_date: dateToMidnightISODate(addDays(new Date(), 1)),
+            targetDate: dateToMidnightISODate(addDays(new Date(), 1)),
             priority: 0,
             createdAt: dateToMidnightISODate(new Date()),
             isCompleted: false,

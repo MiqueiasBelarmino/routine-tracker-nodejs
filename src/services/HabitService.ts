@@ -8,7 +8,7 @@ export class HabitService {
     static prisma = PrismaClientCon;
 
     create = async (habit: Partial<Habit>) => {
-        const weekDays = habit.weekDays?.map((day) => { return { week_day: day } });
+        const weekDays = habit.weekDays?.map((day) => { return { weekDay: day } });
 
         const createdHabit = await HabitService.prisma.habit.create({
             data: {
@@ -18,7 +18,7 @@ export class HabitService {
                 weekDays: {
                     create: weekDays
                 },
-                user_id: habit.user_id!
+                userId: habit.userId!
             }
         });
         return { createdHabit };
@@ -27,7 +27,7 @@ export class HabitService {
     findAll = async (userId: string) => {
         const availableHabits = await HabitService.prisma.habit.findMany({
             where: {
-                user_id: userId
+                userId: userId
             }
         });
         return { availableHabits };
@@ -39,7 +39,7 @@ export class HabitService {
                 id: {
                     equals: id
                 },
-                user_id: {
+                userId: {
                     equals: userId
                 }
             },
@@ -60,10 +60,10 @@ export class HabitService {
                 },
                 weekDays: {
                     some: {
-                        week_day: weekDay
+                        weekDay: weekDay
                     }
                 },
-                user_id: {
+                userId: {
                     equals: userId
                 }
             }
@@ -80,7 +80,7 @@ export class HabitService {
         });
 
         const completedHabits = day?.dayHabits.map((dayHabit) => {
-            return dayHabit.habit_id
+            return dayHabit.habitId
         });
         
         const mappedHabits = availableHabits.map((habit)=>{
@@ -104,7 +104,7 @@ export class HabitService {
     }
 
     update = async (id: string, habit: Partial<Habit>) => {
-        const weekDays = habit.weekDays?.map((day) => { return { week_day: day } });
+        const weekDays = habit.weekDays?.map((day) => { return { weekDay: day } });
 
         const updatedHabit = await HabitService.prisma.habit.update({
             data: {
@@ -112,7 +112,7 @@ export class HabitService {
                 schedule: habit.schedule || SCHEDULE.ALL_DAY,
                 weekDays: {
                     deleteMany: {
-                        habit_id: habit.id
+                        habitId: habit.id
                     },
                     create: weekDays
                 }
@@ -128,21 +128,21 @@ export class HabitService {
         const habit = await HabitService.prisma.habit.findMany({
             where: {
                 id: id,
-                user_id: userId
+                userId: userId
             }
         });
 
         if(habit){
             const habitWeekDay = await HabitService.prisma.habitWeekDay.deleteMany({
                 where: {
-                    habit_id: id
+                    habitId: id
                 }
             })
             
             const dayHabit = await HabitService.prisma.dayHabit.deleteMany({
                 where: {
-                    habit_id: id,
-                    user_id: userId
+                    habitId: id,
+                    userId: userId
                 }
             })
             const deletedHabit = await HabitService.prisma.habit.delete({
@@ -175,9 +175,9 @@ export class HabitService {
 
         const dayHabit = await HabitService.prisma.dayHabit.findUnique({
             where: {
-                day_id_habit_id: {
-                    day_id: day.id,
-                    habit_id: id
+                dayId_habitId: {
+                    dayId: day.id,
+                    habitId: id
                 }
             }
         });
@@ -186,7 +186,7 @@ export class HabitService {
             await HabitService.prisma.dayHabit.deleteMany({
                 where: {
                     id: dayHabit.id,
-                    user_id: {
+                    userId: {
                         equals: userId
                     }
                 }
@@ -196,9 +196,9 @@ export class HabitService {
         } else {
             await HabitService.prisma.dayHabit.create({
                 data: {
-                    day_id: day.id,
-                    habit_id: id,
-                    user_id: userId
+                    dayId: day.id,
+                    habitId: id,
+                    userId: userId
                 }
             })
 
@@ -224,11 +224,11 @@ export class HabitService {
                     SELECT
                         CAST(COUNT(*) AS FLOAT)
                     FROM 
-                        habit_week_days HWD
+                        habit_weekDays HWD
                     JOIN habits H
-                        ON H.id = HWD.habit_id
+                        ON H.id = HWD.habitId
                     WHERE
-                        HWD.week_day = CAST(strftime('%w', D.date/1000.0,'unixepoch') AS INT)
+                        HWD.weekDay = CAST(strftime('%w', D.date/1000.0,'unixepoch') AS INT)
                         AND (H.createdAt = D.date OR H.createdAt < D.date)
                 ) AS amount
             FROM
