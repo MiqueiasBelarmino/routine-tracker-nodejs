@@ -10,9 +10,9 @@ export class TaskService {
 
         const createdTask = await TaskService.prisma.task.create({
             data: {
-                user_id: task.user_id!,
+                userId: task.userId!,
                 name: task.name!,
-                target_date: task.target_date || dateToMidnightISODate(new Date()),
+                targetDate: task.targetDate || dateToMidnightISODate(new Date()),
                 priority: Number(task.priority),
                 isCompleted: task.isCompleted || false,
                 createdAt: dateToMidnightISODate(new Date())
@@ -24,7 +24,7 @@ export class TaskService {
     findAll = async (userId: string) => {
         const availableTasks = await TaskService.prisma.task.findMany({
             where: {
-                user_id: {
+                userId: {
                     equals: userId
                 }
             }
@@ -36,7 +36,7 @@ export class TaskService {
         const task = await TaskService.prisma.task.findMany({
             where: {
                 id: id,
-                user_id: {
+                userId: {
                     equals: userId
                 }
             }
@@ -51,7 +51,7 @@ export class TaskService {
         const availableTasks = await TaskService.prisma.task.findMany({
             where: {
                 createdAt: parsedDate,
-                user_id: {
+                userId: {
                     equals: userId
                 }
             }
@@ -65,7 +65,7 @@ export class TaskService {
         const updatedTask = await TaskService.prisma.task.update({
             data: {
                 name: task.name!,
-                target_date: task.target_date || dateToMidnightISODate(new Date()),
+                targetDate: task.targetDate || dateToMidnightISODate(new Date()),
                 priority: task.priority || 3,
                 isCompleted: task.isCompleted || false,
                 createdAt: dateToMidnightISODate(new Date())
@@ -81,7 +81,7 @@ export class TaskService {
         const task = await TaskService.prisma.task.findMany({
             where: {
                 id: id,
-                user_id: {
+                userId: {
                     equals: userId
                 }
             }
@@ -106,7 +106,7 @@ export class TaskService {
         let tasks = await TaskService.prisma.task.findMany({
             where: {
                 id: id,
-                user_id: {
+                userId: {
                     equals: userId
                 }
             }
