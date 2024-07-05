@@ -25,8 +25,8 @@ export class UserService {
                 ]
             }
         }
-
-        const passwordHash = await hash(password, 10);
+        const plainPassword = CryptoJS.AES.decrypt(password!,process.env.AES_SECRET as string).toString(CryptoJS.enc.Utf8);
+        const passwordHash = await hash(plainPassword, 10);
         const createdUser = await UserService.prisma.user.create({
             data: {
                 name: name,
@@ -82,7 +82,6 @@ export class UserService {
     }
 
     loadSession = async (token: string) => {
-        // const token = req.headers.authorization.split(' ')[1]
 
         return verify(token, process.env.JWT_KEY as string, async (err, decoded) => {
             if (err) {
