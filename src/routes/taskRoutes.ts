@@ -11,6 +11,7 @@ taskRouter.post('/tasks', authenticated, taskController.create);
 taskRouter.get('/tasks/:id', authenticated, taskController.findById);
 taskRouter.put('/tasks/:id', authenticated, taskController.update);
 taskRouter.delete('/tasks/:id', authenticated, taskController.delete);
+taskRouter.post('/tasks/day', authenticated, taskController.findByDay);
 
 taskRouter.patch('/tasks/:id/toggle', authenticated, taskController.toggle);
 

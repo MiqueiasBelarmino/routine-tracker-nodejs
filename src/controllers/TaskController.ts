@@ -9,14 +9,15 @@ export class TaskController {
     create = async (req: Request, res: Response) => {
         const createTaskParams = z.object({
             name: z.string().min(5),
-            targetDate: z.coerce.date(),
+            targetDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
             priority: z.number().min(0).max(3),
+            userId: z.string().uuid()
         })
 
         
         try {
             const task = createTaskParams.parse(req.body);
-            const createdTask = await new TaskService().create(task);
+            const createdTask = await (new TaskService()).create(task);
             res.json(createdTask);
         } catch (error) {
             res.status(500).send(error);
@@ -77,7 +78,7 @@ export class TaskController {
     update = async (req: Request, res: Response) => {
         const updateTaskBody = z.object({
             name: z.string().min(5),
-            targetDate: z.coerce.date(),
+            targetDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
             priority: z.number().min(0).max(3),
             isCompleted: z.boolean(),
         })
