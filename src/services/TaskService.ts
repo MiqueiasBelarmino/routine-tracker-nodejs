@@ -7,18 +7,21 @@ export class TaskService {
     static prisma = PrismaClientCon;
 
     create = async (task: Partial<Task>) => {
-
-        const createdTask = await TaskService.prisma.task.create({
-            data: {
-                userId: task.userId!,
-                name: task.name!,
-                targetDate: task.targetDate || dateToMidnightISODate(new Date()),
-                priority: Number(task.priority),
-                isCompleted: task.isCompleted || false,
-                createdAt: dateToMidnightISODate(new Date())
-            }
-        });
-        return { createdTask };
+        try {
+            const createdTask = await TaskService.prisma.task.create({
+                data: {
+                    userId: task.userId!,
+                    name: task.name!,
+                    targetDate: new Date(task.targetDate as string) || dateToMidnightISODate(new Date()),
+                    priority: Number(task.priority),
+                    isCompleted: task.isCompleted ?? false,
+                    createdAt: dateToMidnightISODate(new Date())
+                }
+            });
+            return { createdTask };
+        } catch (error) {
+            throw error;
+        }
     }
 
     findAll = async (userId: string) => {
@@ -50,7 +53,7 @@ export class TaskService {
 
         const availableTasks = await TaskService.prisma.task.findMany({
             where: {
-                createdAt: parsedDate,
+                targetDate: parsedDate,
                 userId: {
                     equals: userId
                 }
