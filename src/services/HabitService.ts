@@ -86,16 +86,16 @@ export class HabitService {
         const mappedHabits = availableHabits.map((habit: any)=>{
             return {
                 ...habit,
-                done: completedHabits?.includes(habit.id) || false
+                isCompleted: completedHabits?.includes(habit.id) || false
             }
         });
 
         return {
             availableHabits: mappedHabits.sort(( a: any, b: any )=> {
-                if ( a.done < b.done ){
+                if ( a.isCompleted < b.isCompleted ){
                   return -1;
                 }
-                if ( a.done > b.done ){
+                if ( a.isCompleted > b.isCompleted ){
                   return 1;
                 }
                 return 0;
