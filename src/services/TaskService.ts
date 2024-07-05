@@ -124,9 +124,9 @@ export class TaskService {
                 isCompleted = true;
             }
 
-            await TaskService.prisma.task.update({
+            const toggledTask = await TaskService.prisma.task.update({
                 data: {
-                    isCompleted: true
+                    isCompleted
                 },
                 where: {
                     id: task.id
