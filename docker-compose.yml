@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: local-postgres
+    environment:
+      POSTGRES_USER: routine
+      POSTGRES_PASSWORD: routine
+      POSTGRES_DB: routinedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
