@@ -10,6 +10,17 @@ interface IUserResquest {
     password: string;
 }
 
+interface Session {
+    token: string;
+    user: {
+        id: string;
+        name: string;
+    };
+    error?: boolean;
+    status?: number;
+    message?: string;
+}
+
 export class UserService {
 
     static prisma = PrismaClientCon;
@@ -35,12 +46,12 @@ export class UserService {
             }
         });
 
-        return { createdUser: { id:createdUser.id, name: createdUser.name } };
+        return { createdUser: { id: createdUser.id, name: createdUser.name } };
     }
 
     authenticate = async ({ username, password }: Partial<IUserResquest>): Promise<any> => {
 
-        const plainPassword = CryptoJS.AES.decrypt(password!,process.env.AES_SECRET as string).toString(CryptoJS.enc.Utf8);
+        const plainPassword = CryptoJS.AES.decrypt(password!, process.env.AES_SECRET as string).toString(CryptoJS.enc.Utf8);
         const userAlreadyExists = await this.isUserAlreadyCreated(username!);
 
         if (!userAlreadyExists) {
@@ -81,27 +92,36 @@ export class UserService {
         return response;
     }
 
-    loadSession = async (token: string) => {
+    static async loadSession(token: string): Promise<Session> {
+        return new Promise((resolve, reject) => {
+            verify(token, process.env.JWT_KEY as string, async (err, decoded) => {
+                if (err) {
+                    throw new Error('Invalid/Expired session');
+                }
 
-        return verify(token, process.env.JWT_KEY as string, async (err, decoded) => {
-            if (err) {
-                return { error: true, status: 401, message: 'Invalid/Expired session' }
-            }
+                try {
+                    const user = await UserService.prisma.user.findUnique({
+                        where: {
+                            id: decoded?.sub?.toString()
+                        }
+                    });
 
-            let user = await UserService.prisma.user.findUnique({
-                where: {
-                    id: decoded?.sub?.toString()
+                    if (!user) {
+                        throw new Error('User not found');
+                    }
+
+                    resolve({
+                        token,
+                        user: {
+                            id: user.id,
+                            name: user.name,
+                        }
+                    });
+                } catch (error) {
+                    reject(error);
                 }
             });
-
-            return {
-                token,
-                user: {
-                    id: user?.id,
-                    name: user?.name,
-                }
-            }
-        })
+        });
     }
 
     isUserAlreadyCreated = async (username: string) => {

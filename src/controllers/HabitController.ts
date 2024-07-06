@@ -2,6 +2,18 @@ import { HabitService } from './../services/HabitService';
 import { z } from 'zod';
 import { Request, Response } from 'express';
 import { dateToMidnightISODate } from '../utils/helpers';
+import { UserService } from '../services/UserService';
+
+interface Session {
+    token: string;
+    user: {
+        id: string;
+        name: string;
+    };
+    error?: boolean;
+    status?: number;
+    message?: string;
+}
 
 export class HabitController {
 
@@ -68,7 +80,7 @@ export class HabitController {
         })
 
         try {
-            const { date, userId} = dayParams.parse(req.body);
+            const { date, userId } = dayParams.parse(req.body);
             const habits = await new HabitService().findByDay(date, userId);
             res.json(habits);
         } catch (error) {
@@ -112,11 +124,22 @@ export class HabitController {
 
         try {
             const { id } = deleteHabitParams.parse(req.params);
-            const { userId } = body.parse(req.body);
-            const deletedHabit = await new HabitService().delete(id, userId);
-            if(deletedHabit.statusCode){
+            const token = req.headers.authorization?.split(' ')[1]; // Extract the token from the Authorization header
+
+            if (!token) {
+                return res.status(401).send("Unauthorized: No token provided");
+            }
+
+            const session: Session = await UserService.loadSession(token);
+
+            if (session.error) {
+                return res.status(session.status!).send(session.message);
+            }
+
+            const deletedHabit = await HabitController.habitService.delete(id, session.user.id);
+            if (deletedHabit.statusCode) {
                 res.status(deletedHabit.statusCode).send(deletedHabit.message);
-            }else{
+            } else {
                 res.json(deletedHabit);
             }
         } catch (error) {
