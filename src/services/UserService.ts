@@ -36,8 +36,8 @@ export class UserService {
                 ]
             }
         }
-
-        const passwordHash = await hash(password, 10);
+        const plainPassword = CryptoJS.AES.decrypt(password!,process.env.AES_SECRET as string).toString(CryptoJS.enc.Utf8);
+        const passwordHash = await hash(plainPassword, 10);
         const createdUser = await UserService.prisma.user.create({
             data: {
                 name: name,
