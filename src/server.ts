@@ -20,5 +20,5 @@ app.use('/api/v1', taskRouter);
 app.use('/api/v1', usersRouter);
 
 app.listen(PORT, () => { 
-    console.log(`Server running on port ${PORT}`) }
-);
+    console.log(`Server running on port ${PORT}`)
+});

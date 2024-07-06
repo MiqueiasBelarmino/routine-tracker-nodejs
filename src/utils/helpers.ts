@@ -26,3 +26,4 @@ export async function generateTokenJWT(userId: string) {
 
     return token;
 }
+

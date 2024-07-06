@@ -53,7 +53,7 @@ export class UserController {
         }
 
         try {
-            const session = await UserController.userService.loadSession(token);
+            const session = await UserService.loadSession(token);
             res.json(session);
         } catch (error) {
             res.status(500).send(error);
